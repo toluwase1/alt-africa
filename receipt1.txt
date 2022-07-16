@@ -1,0 +1,5 @@
+firstname: Toluwase 
+lastname: Thomas 
+email: toluwase@gmail.com 
+  phoneId: 2
+quantityPurchased: 5

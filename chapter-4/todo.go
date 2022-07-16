@@ -1,8 +1,10 @@
 package main
 
 import (
+	"bufio"
 	"errors"
 	"fmt"
+	"os"
 )
 
 //welcome page function
@@ -34,6 +36,8 @@ func main() {
 			deleteTodoById(id)
 		case 3:
 			fmt.Println("block 3")
+			id := getIdFromUser()
+			updateATodo(id)
 		case 4:
 			fmt.Println("block 4")
 			listAllItemsInTodo()
@@ -49,7 +53,7 @@ func welcomePage() {
 	fmt.Println("---------------------------")
 	fmt.Println("Type 1 to create a new todo")
 	fmt.Println("Type 2 to delete a  todo")
-	fmt.Println("Type 3 to list all todos")
+	fmt.Println("Type 3 to update a todo")
 	fmt.Println("Type 4 to list all todos")
 }
 
@@ -65,9 +69,9 @@ func getUserInputToCreateTodo() (string, string) {
 	var description string
 
 	fmt.Println("Please enter the title of your task")
-	fmt.Scan(&title)
+	title = readSpacedSentences()
 	fmt.Println("Please enter the description of your task")
-	fmt.Scan(&description)
+	description = readSpacedSentences()
 
 	return title, description
 
@@ -87,6 +91,16 @@ func getIdFromUser() int {
 
 	return id
 }
+func updateATodo(id int) {
+	title, description := getUserInputToCreateTodo()
+	todo := title + ": " + description
+	for i, _ := range todolist {
+		if id == i {
+			todolist[i] = todo
+		}
+	}
+	fmt.Println(todolist)
+}
 
 func deleteTodoById(id int) error {
 
@@ -102,4 +116,13 @@ func deleteTodoById(id int) error {
 	}
 	fmt.Println(todolist)
 	return nil
+}
+
+func readSpacedSentences() string {
+	scanner := bufio.NewScanner(os.Stdin)
+	var text string
+	if scanner.Scan() {
+		text = scanner.Text()
+	}
+	return text
 }
